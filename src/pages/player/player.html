@@ -1,0 +1,178 @@
+<ion-content *ngIf="widthscreen > heightscreen" id="content" style="background:#26262d;">
+  <header class="U7IH3nT-xT RwMWOeGUEX">
+    <div class="pcWvID-kmo"></div>
+    <div class="Container _3JvwPHauvB">
+      <div class="menu">
+        <ion-icon *ngIf="listchannel == false" style="color:#fff;font-size:30px;" name="md-apps" (click)="doChannelList()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none;">Ometube TV</a>
+        </ion-icon>
+        <ion-icon *ngIf="listchannel == true" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doChannel()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none;">Ometube TV</a>
+        </ion-icon>
+      </div>
+    </div>
+  </header>
+  <ion-grid style="width:100%;padding-left:60px;padding-right:60px;padding-top:100px;">
+    <!-- <ion-row>
+        <ion-col col-12>
+          <a href="//103.10.200.61/home" alt="Pokercc by Texaspoker.cc" title="texaspoker.cc" target="_blank" rel="nofollow"><img src="wp-content/uploads/TPK.gif" width="100%" height="120px"></a>
+        </ion-col>
+      </ion-row> -->
+    <ion-row *ngIf="listchannel == true">
+      <ion-col col-12>
+        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let channel of channellist" class="slides-hover" col-3 padding style="text-align: center;background: #333232;border:2px solid;border-color:#26262d;border-radius: 5px;"
+                (click)="doDetail(channel)">
+                <p style="color:#fff;font-weight: bold;font-size:15px">{{channel.name}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="listchannel == false">
+      <ion-col col-8>
+        <div>
+          <div style="padding-left:10px;">
+            <h1 *ngIf="title" style="font-size:20px;color:#fff;font-weight: bold;">{{title}} - {{quality}}</h1>
+            <h1 *ngIf="!title" style="font-size:20px;color:#fff;font-weight: bold;">{{nameanime}} Episode {{episode}} - {{quality}}</h1>
+          </div>
+          <div>
+            <ion-row style="background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+              background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);">
+              <ion-col *ngIf="type == 'STREAM'">
+                <button ion-button clear style="font-size:15px;color:#dedede;" (click)="doTrailer()">
+                  Trailer</button>
+              </ion-col>
+              <ion-col *ngFor="let channel of channels">
+                <button ion-button clear style="font-size:15px;color:#dedede;" (click)="doUpdateLink(channel)">
+                  {{channel.quality}}</button>
+              </ion-col>
+            </ion-row>
+            <div id="embed" style="display:none;margin-bottom:-5px;background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+                background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);">
+              <iframe *ngIf="urlembed" [src]="urlembed | safe:'resourceUrl'" allowfullscreen="allowfullscreen" width="100%" height="480px"
+                allowtransparency="true" frameborder="0"></iframe>
+            </div>
+            <div id="myElement" style="width:100%;height:100%;display:none;background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+                background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);"></div>
+
+          </div>
+        </div>
+      </ion-col>
+      <ion-col col-4>
+        <ion-content *ngIf="listchannel == false" style="background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+              background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);;height:100%;">
+          <ion-item no-lines class="col-hover" col-12 *ngFor="let all of channelall" (click)="doChangeChannel(all)">
+            <ion-thumbnail *ngIf="widthscreen >= 1280" item-start>
+              <img src="../../assets/imgs/tv.png">
+            </ion-thumbnail>
+            <h2 *ngIf="!all.episode" style="font-weight: bold;">{{all.title}}</h2>
+            <h2 *ngIf="all.episode" style="font-weight: bold;">{{all.name}} Eps {{all.episode}}</h2>
+            <p *ngIf="!all.episode" style="color:#868686;">{{all.quality}}</p>
+            <p *ngIf="!all.episode" style="color:#868686;">{{all.category}}</p>
+            <p *ngIf="!all.episode" style="color:#868686;">{{all.datestart | date:'HH:mm'}}</p>
+          </ion-item>
+        </ion-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-content *ngIf="widthscreen < heightscreen" id="content" style="background:#26262d;">
+  <header class="U7IH3nT-xT RwMWOeGUEX">
+    <div class="pcWvID-kmo"></div>
+    <div class="Container _3JvwPHauvB">
+      <div class="menu" style="margin:auto;">
+        <ion-icon *ngIf="listchannel == false" style="color:#fff;font-size:30px;" name="md-apps" (click)="doChannelList()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none;">Ometube TV</a>
+        </ion-icon>
+        <ion-icon *ngIf="listchannel == true" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doChannel()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none;">Ometube TV</a>
+        </ion-icon>
+      </div>
+    </div>
+  </header>
+  <ion-grid style="width:100%;padding-top:100px;">
+    <!-- <ion-row>
+            <ion-col col-12>
+              <a href="//103.10.200.61/home" alt="Pokercc by Texaspoker.cc" title="texaspoker.cc" target="_blank" rel="nofollow"><img src="wp-content/uploads/TPK.gif" width="100%" height="120px"></a>
+            </ion-col>
+          </ion-row> -->
+    <ion-row *ngIf="listchannel == true">
+      <ion-col col-12>
+        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let channel of channellist" class="slides-hover" col-4 padding style="text-align: center;background: #333232;border:2px solid;border-color:#26262d;border-radius: 5px;"
+                (click)="doDetail(channel)">
+                <p style="color:#fff;font-weight: bold;font-size:12px">{{channel.name}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="listchannel == false">
+      <ion-col col-12>
+        <div>
+          <div style="padding-left:10px;">
+            <h1 *ngIf="title" style="font-size:15px;color:#fff;font-weight: bold;">{{title}} - {{quality}}</h1>
+            <h1 *ngIf="!title" style="font-size:15px;color:#fff;font-weight: bold;">{{nameanime}} Episode {{episode}} - {{quality}}</h1>
+          </div>
+          <div>
+            <ion-row style="background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+                  background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);">
+              <ion-col *ngIf="type == 'STREAM'">
+                <button ion-button clear style="font-size:12px;color:#dedede;" (click)="doTrailer()">
+                  Trailer</button>
+              </ion-col>
+              <ion-col *ngFor="let channel of channels">
+                <button ion-button clear style="font-size:12px;color:#dedede;" (click)="doUpdateLink(channel)">
+                  {{channel.quality}}</button>
+              </ion-col>
+            </ion-row>
+            <div id="embed" style="display:none;margin-bottom:-5px;background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+                    background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);">
+              <div *ngIf="urlembed && quality == 'Trailer'" class="play-container">
+                <img style="height:200px;width:100%;" src="https://img.youtube.com/vi/{{thumbnail}}/mqdefault.jpg">
+                <div class="play-centered">
+                  <i (click)="doPlayYoutube()" class="fas fa-play-circle playvideo"></i>
+                  <!-- <ion-icon (click)="doPlayYoutube()" class="playvideo" name="logo-youtube"></ion-icon> -->
+                </div>
+              </div>
+              <div *ngIf="urlembed && quality != 'Trailer'" class="play-container">
+                <img style="height:200px;width:100%;" src="{{thumbnail}}">
+                <div class="play-centered">
+                  <i (click)="doPlayEmbed()" class="fas fa-play-circle playvideo"></i>
+                  <!-- <ion-icon (click)="doPlayYoutube()" class="playvideo" name="logo-youtube"></ion-icon> -->
+                </div>
+              </div>
+            </div>
+            <div id="myElement" style="width:100%;height:100%;display:none;background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+                    background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);"></div>
+
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <ion-content *ngIf="listchannel == false" style="background: -webkit-linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);
+                  background: linear-gradient(rgba(0,0,0,.9) 1%,rgba(0,0,0,.8) 15%,rgba(0,0,0,.7) 30%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.3) 75%,transparent);;height:380px;">
+          <ion-item no-lines class="col-hover" col-12 *ngFor="let all of channelall" (click)="doChangeChannel(all)">
+            <ion-thumbnail *ngIf="widthscreen >= 1280" item-start>
+              <img src="../../assets/imgs/tv.png">
+            </ion-thumbnail>
+            <h2 *ngIf="!all.episode" style="font-weight: bold;">{{all.title}}</h2>
+            <h2 *ngIf="all.episode" style="font-weight: bold;">{{all.name}} Eps {{all.episode}}</h2>
+            <p *ngIf="!all.episode" style="color:#868686;">{{all.quality}}</p>
+            <p *ngIf="!all.episode" style="color:#868686;">{{all.category}}</p>
+            <p *ngIf="!all.episode" style="color:#868686;">{{all.datestart | date:'HH:mm'}}</p>
+          </ion-item>
+        </ion-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

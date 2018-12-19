@@ -1,0 +1,20 @@
+<ion-content padding style="background:#26262d;">
+  <div>
+    <img style="width:35%;" src="https://cdn2.downdetector.com/static/uploads/logo/logo-google-play-vetor.png">
+  </div>
+  <div style="background:#dedede;text-align: center;color:#26262d;height:90%;margin-top:20px;padding:50px;">
+    <img style="width:35%;" src="assets/imgs/logo.png">
+    <h5>Versi baru Ometube TV telah tersedia</h5>
+    <div style="margin-top:50px;">
+      <h5 *ngFor="let desc of description" style="font-size:15px;text-align: left;">- {{desc}}</h5>
+    </div>
+    <ion-row style="margin-top:50px;">
+      <ion-col col-6>
+        <button style="width:100%;font-size:10px;" ion-button color="darkgrey" (click)="doUpdate()">Update</button>
+      </ion-col>
+      <ion-col col-6>
+        <button style="width:100%;font-size:10px;" ion-button color="greendark" (click)="doHome()">Mungkin Nanti</button>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

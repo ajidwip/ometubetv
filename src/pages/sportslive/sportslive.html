@@ -1,0 +1,127 @@
+<ion-content *ngIf="width > height" style="background:#26262d;">
+  <header class="U7IH3nT-xT RwMWOeGUEX">
+    <div class="pcWvID-kmo"></div>
+    <div class="Container _3JvwPHauvB">
+      <div class="menu">
+        <ion-icon *ngIf="listchannel == false" style="color:#fff;font-size:30px;" name="md-apps" (click)="doChannelList()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none">Ometube TV</a>
+        </ion-icon>
+        <ion-icon *ngIf="listchannel == true" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doChannel()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none">Ometube TV</a>
+        </ion-icon>
+      </div>
+    </div>
+  </header>
+  <ion-grid style="width:100%;padding-left:100px;padding-right:100px;padding-top:150px;">
+    <!-- <ion-row>
+      <ion-col col-12>
+        <a href="//103.10.200.61/home" alt="Pokercc by Texaspoker.cc" title="texaspoker.cc" target="_blank" rel="nofollow"><img src="wp-content/uploads/TPK.gif" width="100%" height="120px"></a>
+      </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col col-12>
+        <div *ngIf="listchannel == false">
+          <div *ngIf="channels.length != 0">
+            <ion-row style="background: #dedede;">
+              <ion-col padding col-2 style="border-right:1px solid;border-color:#ffffff;">WAKTU (+7)</ion-col>
+              <ion-col padding col-3 style="border-right:1px solid;border-color:#ffffff;">CHANNEL</ion-col>
+              <ion-col padding col-5 style="border-right:1px solid;border-color:#ffffff;">PERTANDINGAN</ion-col>
+              <ion-col padding col-2 style="border-right:1px solid;border-color:#ffffff;text-align: center;">HASIL</ion-col>
+            </ion-row>
+            <ion-row *ngFor="let channel of channels">
+              <ion-col padding col-2 style="border-right:1px solid;border-bottom:1px solid;border-left:1px solid;border-color:#dedede;color:#ffffff;">{{channel.datestart | date:'HH:mm'}} WIB</ion-col>
+              <ion-col padding col-3 style="border-right:1px solid;border-bottom:1px solid;border-color:#dedede;color:#ffffff;">{{channel.category}}</ion-col>
+              <ion-col padding col-5 style="border-right:1px solid;border-bottom:1px solid;border-color:#dedede;color:#ffffff;">{{channel.title}}</ion-col>
+              <ion-col *ngIf="channel.result" padding col-2 style="border-right:1px solid;border-bottom:1px solid;border-color:#dedede;color:#ffffff;text-align: center;">{{channel.result}}</ion-col>
+              <ion-col *ngIf="!channel.result" padding col-2 style="border-right:1px solid;border-bottom:1px solid;border-color:#dedede;color:#ffffff;text-align: center;">
+                <button ion-button clear (click)="goToPlay(channel)">
+                  <ion-icon style="font-weight: bold;font-size:40px;" color="light" name="logo-youtube"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div *ngIf="channels.length == 0">
+            <p *ngIf="param == '0'" padding style="color:#ffffff;">*Tidak ada pertandingan pada hari ini</p>
+            <p *ngIf="param == '1'" padding style="color:#ffffff;">*Tidak ada pertandingan yang sedang berlangsung</p>
+          </div>
+        </div>
+        <div *ngIf="listchannel == true" style="margin-top:-8px;">
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let channel of channellist" class="slides-hover" col-3 padding style="text-align: center;background: #333232;border:2px solid;border-color:#26262d;border-radius: 5px;"
+                (click)="doDetail(channel)">
+                <p style="color:#fff;font-weight: bold;font-size:15px">{{channel.name}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+      <!-- <ion-col col-3>
+        <div id="ads" style="padding-top:0px;">
+          <a href="//qq288hh.com/?Id=8310&AdType=0" title="qq288hh" target="_blank"><img src="wp-content/uploads/qq288-id.gif" width="100%" height="250"></a>
+        </div>
+      </ion-col> -->
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-content *ngIf="width < height" style="background:#26262d;">
+  <header class="U7IH3nT-xT RwMWOeGUEX">
+    <div class="pcWvID-kmo"></div>
+    <div class="Container _3JvwPHauvB">
+      <div class="menu" style="margin:auto;">
+        <ion-icon *ngIf="listchannel == false" style="color:#fff;font-size:30px;" name="md-apps" (click)="doChannelList()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none">Ometube TV</a>
+        </ion-icon>
+        <ion-icon *ngIf="listchannel == true" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doChannel()">
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none">Ometube TV</a>
+        </ion-icon>
+      </div>
+    </div>
+  </header>
+  <ion-grid style="width:100%;padding-top:100px;">
+    <!-- <ion-row>
+      <ion-col col-12>
+        <a href="//103.10.200.61/home" alt="Pokercc by Texaspoker.cc" title="texaspoker.cc" target="_blank" rel="nofollow"><img src="wp-content/uploads/TPK.gif" width="100%" height="120px"></a>
+      </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col col-12>
+        <div *ngIf="listchannel == false">
+          <h1 style="font-size:20px;color:#fff;font-weight: bold;">Pertandingan Hari Ini</h1>
+          <div *ngIf="channels.length != 0">
+            <ion-row *ngFor="let channel of channels">
+              <ion-col padding col-3 style="font-size:12px;border-right:1px solid;border-bottom:1px solid;border-left:1px solid;border-top:1px solid;border-color:#dedede;color:#ffffff;">{{channel.datestart | date:'HH:mm'}} WIB</ion-col>
+              <ion-col padding col-3 style="font-size:12px;border-right:1px solid;border-bottom:1px solid;border-top:1px solid;border-color:#dedede;color:#ffffff;">{{channel.category}}</ion-col>
+              <ion-col padding col-4 style="font-size:12px;border-right:1px solid;border-bottom:1px solid;border-top:1px solid;border-color:#dedede;color:#ffffff;">{{channel.title}}</ion-col>
+              <ion-col *ngIf="channel.result" padding col-2 style="font-size:12px;border-right:1px solid;border-top:1px solid;border-bottom:1px solid;border-color:#dedede;color:#ffffff;text-align: center;">{{channel.result}}</ion-col>
+              <ion-col *ngIf="!channel.result" padding col-2 style="font-size:12px;border-right:1px solid;border-top:1px solid;border-bottom:1px solid;border-color:#dedede;color:#ffffff;text-align: center;">
+                <button ion-button clear (click)="goToPlay(channel)" style="font-size:0px;">
+                  <ion-icon style="font-weight: bold;font-size:20px;" color="light" name="logo-youtube"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+          </div>
+          <div *ngIf="channels.length == 0">
+            <p *ngIf="param == '0'" padding style="color:#ffffff;">*Tidak ada pertandingan pada hari ini</p>
+            <p *ngIf="param == '1'" padding style="color:#ffffff;">*Tidak ada pertandingan yang sedang berlangsung</p>
+          </div>
+        </div>
+        <div *ngIf="listchannel == true" style="margin-top:-8px;">
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let channel of channellist" class="slides-hover" col-4 padding style="text-align: center;background: #333232;border:2px solid;border-color:#26262d;border-radius: 5px;"
+                (click)="doDetail(channel)">
+                <p style="color:#fff;font-weight: bold;font-size:12px">{{channel.name}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+      <!-- <ion-col col-3>
+        <div id="ads" style="padding-top:0px;">
+          <a href="//qq288hh.com/?Id=8310&AdType=0" title="qq288hh" target="_blank"><img src="wp-content/uploads/qq288-id.gif" width="100%" height="250"></a>
+        </div>
+      </ion-col> -->
+    </ion-row>
+  </ion-grid>
+</ion-content>
