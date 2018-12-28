@@ -4,10 +4,10 @@
     <div class="Container _3JvwPHauvB">
       <div class="menu">
         <ion-icon *ngIf="listchannel == false" style="color:#fff;font-size:30px;" name="md-apps" (click)="doChannelList()">
-          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none;">Ometube TV</a>
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none;" (click)="doHome()">Ometube TV</a>
         </ion-icon>
         <ion-icon *ngIf="listchannel == true" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doChannel()">
-          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none;">Ometube TV</a>
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none;" (click)="doHome()">Ometube TV</a>
         </ion-icon>
       </div>
     </div>
@@ -171,6 +171,11 @@
             <p *ngIf="!all.episode" style="color:#868686;">{{all.category}}</p>
             <p *ngIf="!all.episode" style="color:#868686;">{{all.datestart | date:'HH:mm'}}</p>
           </ion-item>
+          <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+            <ion-infinite-scroll-content>
+              loadingSpinner="bubbles" loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
         </ion-content>
       </ion-col>
     </ion-row>

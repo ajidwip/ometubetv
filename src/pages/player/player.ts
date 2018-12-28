@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastController, IonicPage, LoadingController, NavController, Platform, AlertController, NavParams } from 'ionic-angular';
+import { ToastController, IonicPage, LoadingController, NavController, Platform, AlertController, NavParams, App } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import moment from 'moment';
 import { HttpHeaders } from "@angular/common/http";
@@ -8,6 +8,7 @@ import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player';
 import { AdMobPro } from '@ionic-native/admob-pro';
 import { AppVersion } from '@ionic-native/app-version';
+import { HomePage } from '../../pages/home/home';
 
 declare var Clappr: any;
 declare var LevelSelector: any;
@@ -51,6 +52,7 @@ export class PlayerPage {
   public datetimecurrent: any;
   public packagename: any;
   public ads: any;
+  halaman = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -64,7 +66,8 @@ export class PlayerPage {
     public androidFullScreen: AndroidFullScreen,
     public youtube: YoutubeVideoPlayer,
     private admob: AdMobPro,
-    public appVersion: AppVersion) {
+    public appVersion: AppVersion,
+    public app: App) {
     this.widthscreen = window.screen.availWidth;
     this.heightscreen = window.screen.availHeight;
     this.loading = this.loadingCtrl.create({
@@ -86,30 +89,18 @@ export class PlayerPage {
       this.height = platform.height();
       var self = this;
       if (this.type == 'TV') {
-        this.api.get("table/z_channel_url", { params: { filter: "status='OPEN' AND name='" + this.name + "'", limit: 1000, sort: "title" + " ASC,quality ASC" } })
-          .subscribe(val => {
-            this.channelall = val['data']
-          });
+        this.doGetTV()
       }
       else if (this.type == 'STREAM') {
         if (this.name == 'Anime' || this.name == 'Film Series') {
-          this.api.get("table/z_channel_stream_detail", { params: { filter: "status='OPEN' AND name='" + this.title + "'", limit: 1000, sort: "episode" + " DESC" } })
-            .subscribe(val => {
-              this.channelall = val['data']
-            });
+          this.doGetStreamDetail()
         }
         else {
-          this.api.get("table/z_channel_stream_url", { params: { filter: "status='OPEN' AND name='" + this.name + "'", limit: 1000, sort: "title" + " ASC,quality ASC" } })
-            .subscribe(val => {
-              this.channelall = val['data']
-            });
+          this.doGetStream()
         }
       }
       else if (this.type == 'LIVE') {
-        this.api.get("table/z_channel_live", { params: { limit: 1000, filter: "datestart <=" + "'" + this.datetimecurrent + "'" + " AND " + "datefinish >" + "'" + this.datetimecurrent + "' AND status ='OPEN'", sort: "datestart" + " ASC " } })
-          .subscribe(val => {
-            this.channelall = val['data']
-          });
+        this.doGetLive()
       }
       if (this.type == 'TV') {
         if (this.stream != '') {
@@ -150,7 +141,7 @@ export class PlayerPage {
                 banner: self.ads[0].ads_banner,
                 interstitial: self.ads[0].ads_interstitial
               };
-    
+
               self.admob.createBanner({
                 adSize: 'SMART_BANNER',
                 adId: admobid.banner,
@@ -172,12 +163,14 @@ export class PlayerPage {
                   message: 'File tidak berhasil diputar karena kendala ISP yang memblock file streaming, untuk mengatasi harap download VPN Turbo dan setelah terinstall harap Aktifkan lalu pilih server BELANDA',
                   buttons: [
                     {
+
                       text: 'Install Chrome',
                       handler: () => {
                         window.open("https://chrome.google.com/webstore/detail/browsec-vpn-free-and-unli/omghfjlpggmjjaagoclmmobgdodcjboh");
                       }
                     },
                     {
+
                       text: 'Install Firefox',
                       handler: () => {
                         window.open("https://addons.mozilla.org/id/firefox/addon/browsec/");
@@ -195,18 +188,21 @@ export class PlayerPage {
               }
             }
             else {
+
               if (error.message == 'Cannot load M3U8: Crossdomain access denied') {
                 let alert = self.alertCtrl.create({
                   title: 'CORS Error',
                   message: 'File tidak berhasil diputar karena kendala CORS, untuk mengatasi harap download plugin CORS dan setelah terinstall harap Aktifkan plugin CORS nya',
                   buttons: [
                     {
+
                       text: 'Install Chrome',
                       handler: () => {
                         window.open("https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi");
                       }
                     },
                     {
+
                       text: 'Install Firefox',
                       handler: () => {
                         window.open("https://addons.mozilla.org/id/firefox/addon/cors-everywhere/");
@@ -278,7 +274,7 @@ export class PlayerPage {
                 banner: self.ads[0].ads_banner,
                 interstitial: self.ads[0].ads_interstitial
               };
-    
+
               self.admob.createBanner({
                 adSize: 'SMART_BANNER',
                 adId: admobid.banner,
@@ -299,6 +295,7 @@ export class PlayerPage {
                 message: 'File tidak berhasil diputar karena kendala ISP yang memblock file streaming, untuk mengatasi harap download plugin BROWSEC dan setelah terinstall harap Aktifkan plugin BROWSEC nya lalu pilih server BELANDA',
                 buttons: [
                   {
+
                     text: 'Install',
                     handler: () => {
                       window.open("https://play.google.com/store/apps/details?id=free.vpn.unblock.proxy.turbovpn");
@@ -353,7 +350,7 @@ export class PlayerPage {
                   this.channels = val['data']
                   this.stream = this.channels[0].stream
                   this.url = this.channels[0].url
-                  this.title = this.channels[0].title
+                  this.title = this.channels[0].name
                   this.quality = 'Trailer'
                   this.episode = this.channels[0].episode
                   this.nameanime = this.channels[0].name
@@ -465,12 +462,14 @@ export class PlayerPage {
               message: 'File tidak berhasil diputar karena kendala ISP yang memblock file streaming, untuk mengatasi harap download plugin BROWSEC dan setelah terinstall harap Aktifkan plugin BROWSEC nya lalu pilih server BELANDA',
               buttons: [
                 {
+
                   text: 'Install Chrome',
                   handler: () => {
                     window.open("https://chrome.google.com/webstore/detail/browsec-vpn-free-and-unli/omghfjlpggmjjaagoclmmobgdodcjboh");
                   }
                 },
                 {
+
                   text: 'Install Firefox',
                   handler: () => {
                     window.open("https://addons.mozilla.org/id/firefox/addon/browsec/");
@@ -488,18 +487,21 @@ export class PlayerPage {
           }
         }
         else {
+
           if (error.message == 'Cannot load M3U8: Crossdomain access denied') {
             let alert = self.alertCtrl.create({
               title: 'CORS Error',
               message: 'File tidak berhasil diputar karena kendala CORS, untuk mengatasi harap download plugin CORS dan setelah terinstall harap Aktifkan plugin CORS nya',
               buttons: [
                 {
+
                   text: 'Install Chrome',
                   handler: () => {
                     window.open("https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi");
                   }
                 },
                 {
+
                   text: 'Install Firefox',
                   handler: () => {
                     window.open("https://addons.mozilla.org/id/firefox/addon/cors-everywhere/");
@@ -538,6 +540,7 @@ export class PlayerPage {
       stream: channel.stream
     })
   }
+
   doChangeChannel(all) {
     this.channels = [];
     if (all.type == 'TV') {
@@ -552,6 +555,7 @@ export class PlayerPage {
           this.channels = val['data']
         });
     }
+
     else if (this.type == 'STREAM') {
       if (this.name == 'Anime' || this.name == 'Film Series') {
         this.api.get("table/z_channel_stream_detail_url", { params: { filter: "status='OPEN' AND id_channel='" + all.id + "' AND episode='" + all.episode + "'", limit: 1000, sort: "quality" + " ASC " } })
@@ -585,6 +589,7 @@ export class PlayerPage {
       document.getElementById('embed').style.display = 'block'
     }
     else {
+
       if (all.stream != '') {
         document.getElementById('embed').style.display = 'none'
         jwplayer('myElement').setup({
@@ -623,7 +628,7 @@ export class PlayerPage {
               banner: self.ads[0].ads_banner,
               interstitial: self.ads[0].ads_interstitial
             };
-  
+
             self.admob.createBanner({
               adSize: 'SMART_BANNER',
               adId: admobid.banner,
@@ -645,12 +650,14 @@ export class PlayerPage {
                 message: 'File tidak berhasil diputar karena kendala ISP yang memblock file streaming, untuk mengatasi harap download plugin BROWSEC dan setelah terinstall harap Aktifkan plugin BROWSEC nya lalu pilih server BELANDA',
                 buttons: [
                   {
+
                     text: 'Install Chrome',
                     handler: () => {
                       window.open("https://chrome.google.com/webstore/detail/browsec-vpn-free-and-unli/omghfjlpggmjjaagoclmmobgdodcjboh");
                     }
                   },
                   {
+
                     text: 'Install Firefox',
                     handler: () => {
                       window.open("https://addons.mozilla.org/id/firefox/addon/browsec/");
@@ -668,18 +675,21 @@ export class PlayerPage {
             }
           }
           else {
+
             if (error.message == 'Cannot load M3U8: Crossdomain access denied') {
               let alert = self.alertCtrl.create({
                 title: 'CORS Error',
                 message: 'File tidak berhasil diputar karena kendala CORS, untuk mengatasi harap download plugin CORS dan setelah terinstall harap Aktifkan plugin CORS nya',
                 buttons: [
                   {
+
                     text: 'Install Chrome',
                     handler: () => {
                       window.open("https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi");
                     }
                   },
                   {
+
                     text: 'Install Firefox',
                     handler: () => {
                       window.open("https://addons.mozilla.org/id/firefox/addon/cors-everywhere/");
@@ -747,7 +757,8 @@ export class PlayerPage {
         .catch(err => console.log(err));
     }
     this.appVersion.getPackageName().then((name) => {
-      this.packagename = name;
+      this
+        .packagename = name;
       this.api.get("table/z_admob", { params: { limit: 100, filter: "appid=" + "'" + this.packagename + "' AND status='OPEN'" } })
         .subscribe(val => {
           this.ads = val['data']
@@ -767,5 +778,123 @@ export class PlayerPage {
     }, (err) => {
 
     })
+  }
+  doHome() {
+    this.app.getRootNav().setRoot(HomePage)
+  }
+  doGetTV() {
+    return new Promise(resolve => {
+      let offset = 30 * this.halaman
+      if (this.halaman == -1) {
+        resolve();
+      }
+      else {
+        this.halaman++;
+        this.api.get("table/z_channel_url", { params: { limit: 30, offset: offset, filter: "status='OPEN' AND name='" + this.name + "'", sort: "title" + " ASC,quality ASC" } })
+          .subscribe(val => {
+            let data = val['data'];
+            for (let i = 0; i < data.length; i++) {
+              this.channelall.push(data[i]);
+            }
+            if (data.length == 0) {
+              this.halaman = -1
+            }
+            resolve();
+          });
+      }
+    });
+  }
+  doGetStream() {
+    return new Promise(resolve => {
+      let offset = 30 * this.halaman
+      if (this.halaman == -1) {
+        resolve();
+      }
+      else {
+        this.halaman++;
+        this.api.get("table/z_channel_stream_url", { params: { limit: 30, offset: offset, filter: "status='OPEN' AND name='" + this.name + "'", sort: "title" + " ASC,quality ASC" } })
+          .subscribe(val => {
+            let data = val['data'];
+            for (let i = 0; i < data.length; i++) {
+              this.channelall.push(data[i]);
+            }
+            if (data.length == 0) {
+              this.halaman = -1
+            }
+            resolve();
+          });
+      }
+    });
+  }
+  doGetStreamDetail() {
+    console.log('stream detail')
+    console.log(this.halaman)
+    return new Promise(resolve => {
+      let offset = 30 * this.halaman
+      if (this.halaman == -1) {
+        resolve();
+      }
+      else {
+        this.halaman++;
+        this.api.get("table/z_channel_stream_detail", { params: { limit: 30, offset: offset, filter: "status='OPEN' AND name='" + this.title + "'", sort: "episode" + " DESC" } })
+          .subscribe(val => {
+            let data = val['data'];
+            for (let i = 0; i < data.length; i++) {
+              this.channelall.push(data[i]);
+            }
+            if (data.length == 0) {
+              this.halaman = -1
+            }
+            resolve();
+          });
+      }
+    });
+  }
+  doGetLive() {
+    return new Promise(resolve => {
+      let offset = 30 * this.halaman
+      if (this.halaman == -1) {
+        resolve();
+      }
+      else {
+        this.halaman++;
+        this.api.get("table/z_channel_live", { params: { limit: 30, offset: offset, filter: "datestart <=" + "'" + this.datetimecurrent + "'" + " AND " + "datefinish >" + "'" + this.datetimecurrent + "' AND status ='OPEN'", sort: "datestart" + " ASC " } })
+          .subscribe(val => {
+            let data = val['data'];
+            for (let i = 0; i < data.length; i++) {
+              this.channelall.push(data[i]);
+            }
+            if (data.length == 0) {
+              this.halaman = -1
+            }
+            resolve();
+          });
+      }
+    });
+  }
+  doInfinite(infiniteScroll) {
+    if (this.type == 'TV') {
+      this.doGetTV().then(response => {
+        infiniteScroll.complete();
+      });
+    }
+    else if (this.type == 'STREAM') {
+      console.log(this.name)
+      if (this.name == 'Anime' || this.name == 'Film Series') {
+        this.doGetStreamDetail().then(response => {
+          infiniteScroll.complete();
+        });
+      }
+      else {
+        this.doGetStream().then(response => {
+          infiniteScroll.complete();
+        });
+      }
+    }
+    else if (this.type == 'LIVE') {
+      this.doGetLive().then(response => {
+        infiniteScroll.complete();
+      });
+    }
   }
 }

@@ -4,10 +4,10 @@
     <div class="Container _3JvwPHauvB">
       <div class="menu">
         <ion-icon *ngIf="listchannel == false" style="color:#fff;font-size:30px;" name="md-apps" (click)="doChannelList()">
-          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none">Ometube TV</a>
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none" (click)="doHome()">Ometube TV</a>
         </ion-icon>
         <ion-icon *ngIf="listchannel == true" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doChannel()">
-          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none">Ometube TV</a>
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:30px;padding-left:20px;text-decoration: none" (click)="doHome()">Ometube TV</a>
         </ion-icon>
       </div>
       <ion-icon name="ios-search" style="color:#fff;font-size:25px;position: fixed;left: 36%;"></ion-icon>

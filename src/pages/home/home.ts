@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, NavController, Platform, AlertController, ToastController } from 'ionic-angular';
+import { LoadingController, NavController, Platform, AlertController, ToastController, App } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import moment from 'moment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -60,7 +60,8 @@ export class HomePage {
     private statusBar: StatusBar,
     public toastCtrl: ToastController,
     private admob: AdMobPro,
-    public appVersion: AppVersion) {
+    public appVersion: AppVersion,
+    public app: App) {
     this.myForm = fb.group({
       comment: ['', Validators.compose([Validators.required])],
     })
@@ -411,7 +412,7 @@ export class HomePage {
             banner: this.ads[0].ads_banner,
             interstitial: this.ads[0].ads_interstitial
           };
-      
+
           this.admob.prepareInterstitial({
             adId: admobid.interstitial,
             isTesting: this.ads[0].testing,
@@ -430,5 +431,8 @@ export class HomePage {
   }
   doContact() {
     this.navCtrl.push('ContactPage')
+  }
+  doHome() {
+    this.app.getRootNav().setRoot(HomePage)
   }
 }

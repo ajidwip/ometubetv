@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ToastController, IonicPage, LoadingController, NavController, Platform, AlertController, NavParams } from 'ionic-angular';
+import { ToastController, IonicPage, LoadingController, NavController, Platform, AlertController, NavParams, App } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import moment from 'moment';
 import { HttpHeaders } from "@angular/common/http";
 import { AdMobPro } from '@ionic-native/admob-pro';
 import { AppVersion } from '@ionic-native/app-version';
+import { HomePage } from '../../pages/home/home';
 
 declare var window: any;
 declare var adsbygoogle: any[];
@@ -41,7 +42,8 @@ export class SportslivePage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     private admob: AdMobPro,
-    public appVersion: AppVersion) {
+    public appVersion: AppVersion,
+    public app: App) {
     this.loading = this.loadingCtrl.create({
 
     });
@@ -98,7 +100,7 @@ export class SportslivePage {
               banner: this.ads[0].ads_banner,
               interstitial: this.ads[0].ads_interstitial
             };
-        
+
             this.admob.prepareInterstitial({
               adId: admobid.interstitial,
               isTesting: this.ads[0].testing,
@@ -106,7 +108,7 @@ export class SportslivePage {
             })
           });
       }, (err) => {
-  
+
       })
     }
     else {
@@ -171,6 +173,9 @@ export class SportslivePage {
       type: channel.type,
       stream: channel.stream
     })
+  }
+  doHome() {
+    this.app.getRootNav().setRoot(HomePage)
   }
 
 }

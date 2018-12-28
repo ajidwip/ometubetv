@@ -193,10 +193,10 @@
     <div class="Container _3JvwPHauvB">
       <div class="menu" style="margin:auto;">
         <ion-icon *ngIf="list" style="color:#fff;font-size:30px;" name="md-apps" (click)="doGrid()">
-          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none">Ometube TV</a>
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none" (click)="doHome()">Ometube TV</a>
         </ion-icon>
         <ion-icon *ngIf="!list" style="color:#fff;font-size:30px;" name="md-keypad" (click)="doList()">
-          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none">Ometube TV</a>
+          <a style="font-family: Bernard MT Condensed;color:#fff;font-size:25px;padding-left:5px;text-decoration: none" (click)="doHome()">Ometube TV</a>
         </ion-icon>
       </div>
     </div>
@@ -224,30 +224,7 @@
     <ion-row>
       <ion-col col-12>
         <div id="list">
-          <div *ngIf="favorit && favorit.length">
-            <div>
-              <ion-item no-lines style="background:transparent;margin-bottom:-15px;" padding>
-                <div style="font-size:20px;color:#ffffff;">Arsip</div>
-                <ion-icon name="ios-more" class="slides-hover" item-end style="font-size:50px;color:#ffffff;" (click)="doDetailArsip()"></ion-icon>
-              </ion-item>
-              <div>
-                <ion-slides *ngIf="favorit && favorit.length" class="slides-hover" style="height:25%;border-bottom:1px solid;border-color:rgba(211,215,219,.1);"
-                  freeMode="true" spaceBetween="-10" slidesPerView="3.2" loop="true">
-                  <div *ngFor="let channeldetail of favorit">
-                    <ion-slide (click)="doPlayerweb(channeldetail)">
-                      <ion-card>
-                        <div class="container">
-                          <img src="{{channeldetail.thumbnail_picture}}" style="height:125px;width:100%;" />
-                          <div class="bottom">{{channeldetail.title}}</div>
-                        </div>
-                      </ion-card>
-                    </ion-slide>
-                  </div>
-                </ion-slides>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="mostwatch && mostwatch.length">
+          <div *ngIf="mostwatch && mostwatch.length && channellistall.length > 1">
             <div>
               <ion-item no-lines style="background:transparent;margin-bottom:-15px;" padding>
                 <div style="font-size:20px;color:#ffffff;">Most Watched</div>

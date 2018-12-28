@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.tvonline.ometubetv" version="1.0.0" xmlns="//www.w3.org/ns/widgets" xmlns:cdv="//cordova.apache.org/ns/1.0">
-    <name>Ometube TV</name>
+<widget id="com.tvonline.ometubetv" version="1.0.1" xmlns="//www.w3.org/ns/widgets" xmlns:cdv="//cordova.apache.org/ns/1.0">
+    <name>TV Streaming</name>
     <description>Ometubetv, TV Indonesia, TV Streaming, TV Online Indonesia, Streaming Film, Streaming Bola, TV Online, Streaming Liga Inggris, Streaming Liga Spanyol, Streaming Liga Italia, Film Indonesia, Streaming Asian Games 2018</description>
     <author email="ometubedev@gmail.com" href="//ometubetv.com/" />
     <content src="index.html" />

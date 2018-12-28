@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ToastController, IonicPage, LoadingController, NavController, Platform, AlertController, NavParams } from 'ionic-angular';
+import { ToastController, IonicPage, LoadingController, NavController, Platform, AlertController, NavParams, App } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import moment from 'moment';
 import { HttpHeaders } from "@angular/common/http";
 import { AdMobPro } from '@ionic-native/admob-pro';
 import { AppVersion } from '@ionic-native/app-version';
+import { HomePage } from '../../pages/home/home';
 
 declare var window: any;
 declare var videojs: any;
@@ -52,7 +53,8 @@ export class ChannelPage {
     public appVersion: AppVersion,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    private admob: AdMobPro) {
+    private admob: AdMobPro,
+    public app: App) {
     this.loader = this.loadingCtrl.create({
 
     });
@@ -584,7 +586,7 @@ export class ChannelPage {
             banner: this.ads[0].ads_banner,
             interstitial: this.ads[0].ads_interstitial
           };
-      
+
           this.admob.prepareInterstitial({
             adId: admobid.interstitial,
             isTesting: this.ads[0].testing,
@@ -594,6 +596,9 @@ export class ChannelPage {
     }, (err) => {
 
     })
+  }
+  doHome() {
+    this.app.getRootNav().setRoot(HomePage)
   }
 
 }
